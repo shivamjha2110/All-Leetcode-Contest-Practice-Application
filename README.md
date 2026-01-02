@@ -1,6 +1,6 @@
 # All LeetCode Contest - ASCEND
 
-![Dashboard Preview](./public/dashboard-preview.png)
+![Dashboard Preview](./All_Leetcode_Contest/public/dashboard-preview.png)
 
 ## 🚀 About The Project
 
