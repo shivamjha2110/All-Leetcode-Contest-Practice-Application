@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Filter, Play, Trophy } from 'lucide-react';
 import { fetchLeetCode, QUERIES } from '../api';
+import Dropdown from './Dropdown';
 
 export default function ContestList({ onSelectContest }) {
     const [contests, setContests] = useState([]);
@@ -76,23 +77,20 @@ export default function ContestList({ onSelectContest }) {
 
                 <div className="h-6 w-px bg-slate-200 dark:bg-white/10 mx-2 hidden sm:block" />
 
-                <select
+                <Dropdown
                     value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    className="bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 outline-none hover:bg-slate-200 dark:hover:bg-black/50 transition-colors cursor-pointer"
-                >
-                    {years.map(y => <option key={y} value={y}>{y}</option>)}
-                </select>
+                    onChange={setYear}
+                    options={years.map(y => ({ value: y, label: y }))}
+                />
 
-                <select
+                <Dropdown
                     value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                    className="bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 outline-none hover:bg-slate-200 dark:hover:bg-black/50 transition-colors cursor-pointer"
-                >
-                    {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
-                        <option key={m} value={m}>{new Date(0, m - 1).toLocaleString('default', { month: 'long' })}</option>
-                    ))}
-                </select>
+                    onChange={setMonth}
+                    options={Array.from({ length: 12 }, (_, i) => i + 1).map(m => ({
+                        value: m,
+                        label: new Date(0, m - 1).toLocaleString('default', { month: 'long' })
+                    }))}
+                />
 
                 <div className="ml-auto text-xs text-slate-500 dark:text-slate-500 font-mono hidden sm:block">
                     Found {filtered.length} contests
