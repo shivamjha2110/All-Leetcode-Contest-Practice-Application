@@ -30,13 +30,14 @@ export default function ContestList({ onSelectContest }) {
                 allData = [...first.pastContests.data];
                 total = metaTotal;
 
+                // API might limit items per page to 10 even if we ask for 50
+                const actualPerPage = first.pastContests.data.length || 10;
+                const totalPages = Math.ceil(total / actualPerPage);
 
-
-                const totalPages = Math.ceil(total / perPage);
                 const remainingPages = [];
                 for (let i = 2; i <= totalPages; i++) remainingPages.push(i);
 
-                const BATCH_SIZE = 5;
+                const BATCH_SIZE = 10; // Increased batch size for more pages
                 for (let i = 0; i < remainingPages.length; i += BATCH_SIZE) {
                     const batch = remainingPages.slice(i, i + BATCH_SIZE);
                     const promises = batch.map(p => fetchLeetCode(QUERIES.pastContests, { pageNo: p, numPerPage: perPage }));
